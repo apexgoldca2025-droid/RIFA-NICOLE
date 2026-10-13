@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>S.U.R. | Sistema Único de Rifas Autorizado</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- FontAwesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+    body { font-family: 'Plus Jakarta Sans', sans-serif; }
+    .gold-gradient { background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); }
+  </style>
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col justify-between selection:bg-amber-500 selection:text-slate-950">
+
+  <!-- BARRA INSTITUCIONAL SUPERIOR (Estilo S.U.R. / CONALOT) -->
+  <div class="bg-slate-900 border-b border-slate-800 text-[11px] text-slate-400 py-1.5 px-4">
+    <div class="max-w-7xl mx-auto flex justify-between items-center">
+      <div class="flex items-center space-x-2">
+        <span class="inline-block w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+        <span>Plataforma Regulada bajo Estándares de Control Comercial y S.U.R.</span>
+      </div>
+      <div class="flex items-center space-x-4">
+        <span><i class="fa-solid fa-shield-check text-emerald-400 mr-1"></i> Sorteo Verificado</span>
+        <span class="hidden md:inline">|</span>
+        <span class="hidden md:inline">República Bolivariana de Venezuela</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- HEADER PRINCIPAL -->
+  <header class="bg-slate-950/80 backdrop-blur-md border-b border-slate-800 sticky top-0 z-50 shadow-xl">
+    <div class="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
+      <div class="flex items-center space-x-3">
+        <div class="gold-gradient text-slate-950 font-black p-2.5 rounded-xl text-xl shadow-lg shadow-amber-500/10">
+          <i class="fa-solid fa-award"></i>
+        </div>
+        <div>
+          <h1 id="nav-title" class="font-extrabold text-base md:text-lg text-white tracking-wide">S.U.R. <span class="text-amber-500 font-normal text-xs px-2 py-0.5 bg-amber-500/10 border border-amber-500/20 rounded-full ml-1">Sistema Oficial</span></h1>
+          <p class="text-[10px] text-slate-400 uppercase tracking-widest">Sistema Único de Rifas</p>
+        </div>
+      </div>
+      <nav class="flex items-center space-x-2 md:space-x-4">
+        <button onclick="switchTab('home')" class="px-3 py-1.5 rounded-lg text-xs md:text-sm font-semibold text-slate-300 hover:text-amber-400 hover:bg-slate-900 transition"><i class="fa-solid fa-house mr-1"></i> Inicio</button>
+        <button onclick="switchTab('verify')" class="px-3 py-1.5 rounded-lg text-xs md:text-sm font-semibold text-slate-300 hover:text-amber-400 hover:bg-slate-900 transition"><i class="fa-solid fa-magnifying-glass mr-1"></i> Mis Tickets</button>
+        <button onclick="openAdminLogin()" class="bg-slate-900 hover:bg-slate-800 px-3.5 py-1.5 rounded-xl text-xs font-bold border border-slate-700 text-amber-400 transition shadow-sm"><i class="fa-solid fa-lock mr-1"></i> Admin</button>
+      </nav>
+    </div>
+  </header>
+
+  <!-- CONTENIDO PRINCIPAL -->
+  <main class="flex-grow max-w-7xl w-full mx-auto px-4 py-8 space-y-8">
+
+    <!-- SECCIÓN: INICIO / COMPRA -->
+    <div id="tab-home" class="space-y-8">
+      
+      <!-- BANNER DE LA RIFA Y DETALLES -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center bg-slate-900/60 border border-slate-800 rounded-3xl p-6 md:p-8 shadow-2xl backdrop-blur-sm">
+        <div class="lg:col-span-7 space-y-5">
+          <div class="inline-flex items-center space-x-2 bg-amber-500/10 text-amber-400 border border-amber-500/30 text-xs font-bold px-3.5 py-1.5 rounded-full">
+            <i class="fa-solid fa-certificate"></i>
+            <span>Sorteo Autorizado S.U.R. N° 2026-09</span>
+          </div>
+          <h2 id="display-title" class="text-3xl md:text-5xl font-extrabold text-white tracking-tight leading-tight">Gran Sorteo Especial de Lujo</h2>
+          <p id="display-description" class="text-slate-300 text-sm md:text-base leading-relaxed">Participa adquiriendo tus tickets electrónicos certificados con asignación numérica instantánea y validación de pago en línea.</p>
+          
+          <div class="grid grid-cols-2 sm:grid-cols-3 gap-4 pt-2">
+            <div class="bg-slate-950/80 p-4 rounded-2xl border border-slate-800">
+              <span class="text-[11px] text-slate-400 block uppercase font-bold tracking-wider">Precio / Ticket</span>
+              <span id="display-price" class="text-2xl font-extrabold text-amber-400">$3.00 USD</span>
+            </div>
+            <div class="bg-slate-950/80 p-4 rounded-2xl border border-slate-800">
+              <span class="text-[11px] text-slate-400 block uppercase font-bold tracking-wider">Tasa BCV Ref.</span>
+              <span id="display-rate" class="text-xl font-extrabold text-emerald-400">36.50 VES</span>
+            </div>
+            <div class="col-span-2 sm:col-span-1 bg-slate-950/80 p-4 rounded-2xl border border-slate-800 flex flex-col justify-center">
+              <span class="text-[11px] text-slate-400 block uppercase font-bold tracking-wider">Estatus Sorteo</span>
+              <span class="text-xs font-extrabold text-amber-300 mt-1 flex items-center"><i class="fa-solid fa-circle-check text-emerald-400 mr-1.5"></i> Activo y Abierto</span>
+            </div>
+          </div>
+
+          <button onclick="scrollToBuy()" class="w-full sm:w-auto gold-gradient hover:opacity-95 text-slate-950 font-extrabold py-4 px-8 rounded-xl shadow-lg transition transform active:scale-95 text-center block text-sm uppercase tracking-wider">
+            <i class="fa-solid fa-ticket mr-2"></i> ¡Comprar Números de la Suerte!
+          </button>
+        </div>
+        
+        <div class="lg:col-span-5 relative flex justify-center">
+          <div class="w-full max-w-sm rounded-2xl overflow-hidden shadow-2xl border border-slate-700 bg-slate-950 relative group">
+            <img id="display-img" src="https://images.unsplash.com/photo-1526304640581-d334cdbbf45e?auto=format&fit=crop&w=800&q=80" alt="Premio" class="h-80 w-full object-cover group-hover:scale-105 transition duration-500">
+            <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent opacity-80"></div>
+            <div class="absolute bottom-4 left-4 right-4 text-center">
+              <span class="text-xs text-amber-400 font-bold uppercase tracking-widest block">Premio Mayor Garantizado</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TOP 3 DE MEJORES COMPRADORES -->
+      <div class="bg-slate-900/60 border border-slate-800 rounded-3xl p-6 md:p-8 shadow-xl backdrop-blur-sm">
+        <div class="flex items-center justify-between mb-6">
+          <h3 class="text-lg font-bold text-white flex items-center">
+            <i class="fa-solid fa-trophy text-amber-400 mr-2.5"></i> Top 3 Mejores Compradores Oficiales
+          </h3>
+          <span class="text-xs text-slate-400 hidden sm:inline">Actualizado en tiempo real</span>
+        </div>
+        <div id="top-buyers-container" class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <!-- Se llena dinámicamente -->
+        </div>
+      </div>
+
+      <!-- FORMULARIO DE REGISTRO DE COMPRA Y PAGO (FLUJO COMPLETO S.U.R.) -->
+      <div id="buy-section" class="bg-slate-900/60 border border-slate-800 rounded-3xl p-6 md:p-10 shadow-2xl backdrop-blur-sm">
+        <div class="max-w-3xl mx-auto space-y-6">
+          <div class="text-center space-y-2">
+            <span class="text-xs font-bold text-amber-400 uppercase tracking-widest">Módulo de Adquisición Autorizada</span>
+            <h3 class="text-2xl md:text-3xl font-extrabold text-white">Registro de Participante y Datos de Pago</h3>
+            <p class="text-slate-400 text-xs md:text-sm">Completa tus datos personales de identidad y registra los datos de tu transferencia o pago móvil para generar tus tickets oficiales.</p>
+          </div>
+
+          <form id="purchase-form" onsubmit="handlePurchase(event)" class="space-y-6 pt-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <label class="block text-xs font-bold text-slate-300 uppercase mb-1.5">Cédula de Identidad</label>
+                <input type="text" id="p-ci" required placeholder="Ej. V-28123456" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-amber-500 text-white">
+              </div>
+              <div>
+                <label class="block text-xs font-bold text-slate-300 uppercase mb-1.5">Nombre y Apellido</label>
+                <input type="text" id="p-name" required placeholder="Ej. Carlos Pérez" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-amber-500 text-white">
+              </div>
+              <div>
+                <label class="block text-xs font-bold text-slate-300 uppercase mb-1.5">Teléfono / WhatsApp de Contacto</label>
+                <input type="tel" id="p-phone" required placeholder="Ej. 04121234567" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-amber-500 text-white">
+              </div>
+              <div>
+                <label class="block text-xs font-bold text-slate-300 uppercase mb-1.5">Cantidad de Tickets a Comprar</label>
+                <input type="number" id="p-qty" min="1" value="1" oninput="calculateTotal()" required class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-amber-500 text-white font-bold">
+              </div>
+            </div>
+
+            <!-- Resumen de Calculo Financiero -->
+            <div class="bg-slate-950 border border-slate-800 p-5 rounded-2xl flex flex-col md:flex-row justify-between items-center gap-4">
+              <div>
+                <span class="text-xs text-slate-400 block">Total a Pagar en USD: <strong id="total-usd" class="text-amber-400 text-base font-extrabold">$3.00</strong></span>
+                <span class="text-xs text-emerald-400 block mt-1">Monto equivalente en Bolívares (BCV): <strong id="total-bs" class="text-sm font-extrabold">109.50 VES</strong></span>
+              </div>
+              <div class="text-right bg-slate-900 px-4 py-2 rounded-xl border border-slate-800">
+                <span class="text-[10px] text-slate-400 block uppercase font-bold">Asignación de Tickets</span>
+                <span class="text-xs font-extrabold text-amber-300"><i class="fa-solid fa-bolt mr-1"></i> Secuencial Automática</span>
+              </div>
+            </div>
+
+            <!-- Datos Bancarios Oficiales -->
+            <div class="bg-slate-950 border border-slate-800 p-6 rounded-2xl space-y-3">
+              <div class="flex items-center space-x-2 text-amber-400 font-bold text-xs uppercase tracking-wider">
+                <i class="fa-solid fa-building-columns"></i>
+                <span>Datos Bancarios Oficiales para Pago Móvil / Transferencia</span>
+              </div>
+              <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-xs pt-1">
+                <div class="bg-slate-900 p-3 rounded-xl border border-slate-800"><span class="text-slate-400 block text-[10px]">Banco:</span> <strong class="text-white">0105 - Mercantil</strong></div>
+                <div class="bg-slate-900 p-3 rounded-xl border border-slate-800"><span class="text-slate-400 block text-[10px]">Teléfono:</span> <strong class="text-white">0412-0000000</strong></div>
+                <div class="bg-slate-900 p-3 rounded-xl border border-slate-800"><span class="text-slate-400 block text-[10px]">Cédula / RIF:</span> <strong class="text-white">V-12345678</strong></div>
+                <div class="bg-slate-900 p-3 rounded-xl border border-slate-800"><span class="text-slate-400 block text-[10px]">Beneficiario:</span> <strong class="text-white">S.U.R. Oficial C.A.</strong></div>
+              </div>
+            </div>
+
+            <!-- Datos del Pago Ejecutado -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <label class="block text-xs font-bold text-slate-300 uppercase mb-1.5">Banco Emisor (Desde donde realizaste el pago)</label>
+                <select id="p-bank" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-amber-500 text-white">
+                  <option value="Mercantil">Banco Mercantil</option>
+                  <option value="Banesco">Banesco</option>
+                  <option value="Venezuela">Banco de Venezuela</option>
+                  <option value="BNC">Banco Nacional de Crédito (BNC)</option>
+                  <option value="Provincial">BBVA Provincial</option>
+                  <option value="Zelle / Internacional">Zelle / Divisas / Binance</option>
+                </select>
+              </div>
+              <div>
+                <label class="block text-xs font-bold text-slate-300 uppercase mb-1.5">Últimos 4 Dígitos de Referencia Bancaria</label>
+                <input type="text" id="p-ref" maxlength="4" required placeholder="Ej. 4589" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-amber-500 text-white font-mono font-bold tracking-widest">
+              </div>
+            </div>
+
+            <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-extrabold py-4 rounded-xl shadow-xl transition text-center text-sm uppercase tracking-wider flex items-center justify-center space-x-2">
+              <i class="fa-brands fa-whatsapp text-lg"></i>
+              <span>Registrar Pago y Enviar Orden por WhatsApp</span>
+            </button>
+          </form>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- SECCIÓN: VERIFICAR TICKETS -->
+    <div id="tab-verify" class="hidden space-y-6">
+      <div class="bg-slate-900/60 border border-slate-800 rounded-3xl p-6 md:p-10 max-w-xl mx-auto shadow-2xl backdrop-blur-sm">
+        <div class="text-center space-y-2 mb-6">
+          <div class="inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-amber-500/10 text-amber-400 mb-2 border border-amber-500/20">
+            <i class="fa-solid fa-magnifying-glass text-xl"></i>
+          </div>
+          <h3 class="text-2xl font-extrabold text-white">Consulta Oficial de Tickets</h3>
+          <p class="text-xs text-slate-400">Introduce tu número de cédula para consultar los números asignados y el estatus de validación de tus pagos.</p>
+        </div>
+        
+        <div class="flex gap-3">
+          <input type="text" id="search-ci" placeholder="Cédula (Ej. V-28123456)" class="flex-grow bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-amber-500 text-white">
+          <button onclick="searchTickets()" class="gold-gradient hover:opacity-95 text-slate-950 px-6 py-3 rounded-xl font-bold text-sm transition shadow-md">Consultar</button>
+        </div>
+
+        <div id="search-result" class="mt-6 space-y-4">
+          <!-- Resultados aquí -->
+        </div>
+      </div>
+    </div>
+
+    <!-- SECCIÓN: PANEL DE ADMINISTRADOR -->
+    <div id="tab-admin" class="hidden space-y-8">
+      <div class="bg-slate-900/80 border border-slate-800 rounded-3xl p-6 md:p-10 shadow-2xl backdrop-blur-sm">
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 pb-6 border-b border-slate-800 gap-4">
+          <div>
+            <div class="inline-flex items-center space-x-2 text-amber-400 font-bold text-xs uppercase tracking-wider mb-1">
+              <i class="fa-solid fa-lock-open"></i>
+              <span>Panel de Control Administrativo S.U.R.</span>
+            </div>
+            <h3 class="text-2xl font-extrabold text-white">Gestión General y Órdenes</h3>
+          </div>
+          <button onclick="switchTab('home')" class="bg-slate-800 hover:bg-slate-700 px-4 py-2 rounded-xl text-xs font-bold transition text-slate-300">Cerrar Sesión Admin</button>
+        </div>
+
+        <!-- CONFIGURACIÓN DE LA RIFA -->
+        <div class="bg-slate-950 border border-slate-800 p-6 rounded-2xl mb-8 space-y-6">
+          <h4 class="font-extrabold text-amber-400 text-sm uppercase tracking-wider flex items-center">
+            <i class="fa-solid fa-gears mr-2"></i> Configuración de Parámetros del Sorteo
+          </h4>
+          <form onsubmit="saveRaffleConfig(event)" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-xs font-bold text-slate-300 uppercase mb-1">Título Oficial del Sorteo</label>
+              <input type="text" id="cfg-title" class="w-full bg-slate-900 border border-slate-800 rounded-xl px-4 py-2.5 text-sm text-white">
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-slate-300 uppercase mb-1">Precio por Ticket ($ USD)</label>
+              <input type="number" step="0.01" id="cfg-price" class="w-full bg-slate-900 border border-slate-800 rounded-xl px-4 py-2.5 text-sm text-white font-bold">
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-slate-300 uppercase mb-1">Tasa BCV Oficial (VES)</label>
+              <input type="number" step="0.01" id="cfg-rate" class="w-full bg-slate-900 border border-slate-800 rounded-xl px-4 py-2.5 text-sm text-white font-bold">
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-slate-300 uppercase mb-1">URL de Imagen del Premio</label>
+              <input type="text" id="cfg-img" class="w-full bg-slate-900 border border-slate-800 rounded-xl px-4 py-2.5 text-sm text-white">
+            </div>
+            <div class="md:col-span-2">
+              <label class="block text-xs font-bold text-slate-300 uppercase mb-1">Descripción del Premio</label>
+              <textarea id="cfg-desc" rows="2" class="w-full bg-slate-900 border border-slate-800 rounded-xl px-4 py-2.5 text-sm text-white"></textarea>
+            </div>
+            <div class="md:col-span-2 flex flex-col sm:flex-row justify-between items-center pt-2 gap-4">
+              <button type="submit" class="w-full sm:w-auto gold-gradient hover:opacity-95 text-slate-950 font-extrabold px-6 py-3 rounded-xl text-xs uppercase tracking-wider transition shadow">Guardar Cambios</button>
+              <button type="button" onclick="resetRaffleData()" class="w-full sm:w-auto bg-red-500/10 text-red-400 border border-red-500/30 hover:bg-red-500/20 font-bold px-6 py-3 rounded-xl text-xs transition">Reiniciar Rifa Completa</button>
+            </div>
+          </form>
+        </div>
+
+        <!-- LISTA DE ÓRDENES Y PAGOS -->
+        <div class="space-y-4">
+          <h4 class="font-extrabold text-white text-sm uppercase tracking-wider flex items-center">
+            <i class="fa-solid fa-receipt mr-2 text-amber-400"></i> Órdenes Registradas y Comprobantes
+          </h4>
+          <div class="overflow-x-auto">
+            <table class="w-full text-left text-xs">
+              <thead class="bg-slate-950 text-slate-400 uppercase tracking-wider">
+                <tr>
+                  <th class="p-3.5 rounded-l-xl">Cédula / Participante</th>
+                  <th class="p-3.5">Teléfono</th>
+                  <th class="p-3.5">Tickets</th>
+                  <th class="p-3.5">Banco / Ref.</th>
+                  <th class="p-3.5">Estatus</th>
+                  <th class="p-3.5 rounded-r-xl text-right">Acciones</th>
+                </tr>
+              </thead>
+              <tbody id="admin-orders-table" class="divide-y divide-slate-800">
+                <!-- Se llena dinámicamente -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </main>
+
+  <!-- FOOTER INSTITUCIONAL -->
+  <footer class="bg-slate-950 border-t border-slate-800 py-8 mt-12 text-center text-xs text-slate-500 space-y-2">
+    <p class="font-bold text-slate-400">Sistema Único de Rifas (S.U.R.) &bull; Autorizado y Protegido</p>
+    <p>Todos los derechos reservados &bull; Verificación y Transparencia Comercial en Línea</p>
+  </footer>
+
+  <!-- SCRIPT DE LÓGICA INTEGRAL -->
+  <script>
+    // Configuración Inicial Predeterminada
+    let config = JSON.parse(localStorage.getItem('sur_config')) || {
+      title: "Gran Sorteo Especial Oficial S.U.R.",
+      price: 3.0,
+      rate: 36.50,
+      image: "https://images.unsplash.com/photo-1558981806-ec527fa84c39?auto=format&fit=crop&w=800&q=80",
+      description: "Participa por premios extraordinarios con respaldo y validación automatizada."
+    };
+
+    let orders = JSON.parse(localStorage.getItem('sur_orders')) || [];
+    let nextTicketNumber = parseInt(localStorage.getItem('sur_next_ticket')) || 1001;
+
+    // Número de WhatsApp al que llegarán las órdenes con formato oficial (Cambia por tu número real)
+    const adminWhatsApp = "584120000000"; 
+
+    window.onload = function() {
+      updateUI();
+      renderTopBuyers();
+    };
+
+    function updateUI() {
+      document.getElementById('nav-title').innerHTML = `S.U.R. <span class="text-amber-500 font-normal text-xs px-2 py-0.5 bg-amber-500/10 border border-amber-500/20 rounded-full ml-1">Sistema Oficial</span>`;
+      document.getElementById('display-title').textContent = config.title;
+      document.getElementById('display-description').textContent = config.description;
+      document.getElementById('display-price').textContent = `$${config.price.toFixed(2)} USD`;
+      document.getElementById('display-rate').textContent = `${config.rate.toFixed(2)} VES`;
+      document.getElementById('display-img').src = config.image;
+      calculateTotal();
+    }
+
+    function calculateTotal() {
+      const qty = parseInt(document.getElementById('p-qty').value) || 1;
+      const totalUSD = qty * config.price;
+      const totalVES = totalUSD * config.rate;
+      document.getElementById('total-usd').textContent = `$${totalUSD.toFixed(2)}`;
+      document.getElementById('total-bs').textContent = `${totalVES.toFixed(2)} VES`;
+    }
+
+    function switchTab(tabName) {
+      document.getElementById('tab-home').classList.add('hidden');
+      document.getElementById('tab-verify').classList.add('hidden');
+      document.getElementById('tab-admin').classList.add('hidden');
+
+      if(tabName === 'home') document.getElementById('tab-home').classList.remove('hidden');
+      if(tabName === 'verify') document.getElementById('tab-verify').classList.remove('hidden');
+      if(tabName === 'admin') {
+        document.getElementById('tab-admin').classList.remove('hidden');
+        loadAdminPanel();
+      }
+      window.scrollTo(0, 0);
+    }
+
+    function scrollToBuy() {
+      document.getElementById('buy-section').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    // Registro de Compra y Generación de Orden con Envío a WhatsApp
+    function handlePurchase(e) {
+      e.preventDefault();
+      const ci = document.getElementById('p-ci').value.trim();
+      const name = document.getElementById('p-name').value.trim();
+      const phone = document.getElementById('p-phone').value.trim();
+      const qty = parseInt(document.getElementById('p-qty').value);
+      const bank = document.getElementById('p-bank').value;
+      const ref = document.getElementById('p-ref').value.trim();
+
+      // Generar tickets asignados consecutivos
+      let assignedTickets = [];
+      for(let i = 0; i < qty; i++) {
+        assignedTickets.push(nextTicketNumber++);
+      }
+      localStorage.setItem('sur_next_ticket', nextTicketNumber);
+
+      const totalUSD = qty * config.price;
+      const totalVES = totalUSD * config.rate;
+
+      const newOrder = {
+        id: Date.now(),
+        ci,
+        name,
+        phone,
+        qty,
+        totalUSD,
+        totalVES,
+        bank,
+        ref,
+        tickets: assignedTickets,
+        status: 'Pendiente',
+        date: new Date().toLocaleDateString()
+      };
+
+      orders.push(newOrder);
+      localStorage.setItem('sur_orders', JSON.stringify(orders));
+
+      // Construcción del mensaje profesional para WhatsApp
+      let ticketsStr = assignedTickets.join(', ');
+      let waMessage = `*📋 NUEVA ORDEN REGISTRADA (S.U.R.)*%0A%0A` +
+                      `👤 *Participante:* ${name}%0A` +
+                      `🪪 *Cédula:* ${ci}%0A` +
+                      `📱 *Teléfono:* ${phone}%0A` +
+                      `🎟️ *Cantidad:* ${qty} tickets%0A` +
+                      `🔢 *Números Asignados:* [${ticketsStr}]%0A` +
+                      `💵 *Total USD:* $${totalUSD.toFixed(2)}%0A` +
+                      `🇻🇪 *Total VES:* ${totalVES.toFixed(2)} Bs%0A` +
+                      `🏦 *Banco Emisor:* ${bank}%0A` +
+                      `🧾 *Últimos Ref:* ${ref}%0A%0A` +
+                      `⏳ *Estatus:* Pendiente de verificación por administración.`;
+
+      // Abrir enlace directo a WhatsApp
+      window.open(`https://api.whatsapp.com/send?phone=${adminWhatsApp}&text=${waMessage}`, '_blank');
+
+      alert("¡Orden registrada con éxito en el Sistema S.U.R.! Se abrirá WhatsApp para enviar tu comprobante.");
+      document.getElementById('purchase-form').reset();
+      calculateTotal();
+      renderTopBuyers();
+    }
+
+    // Renderizar Top 3 Compradores
+    function renderTopBuyers() {
+      const container = document.getElementById('top-buyers-container');
+      let buyerStats = {};
+      
+      orders.forEach(o => {
+        if(o.status === 'Aprobado') {
+          if(!buyerStats[o.ci]) {
+            buyerStats[o.ci] = { name: o.name, tickets: 0 };
+          }
+          buyerStats[o.ci].tickets += o.qty;
+        }
+      });
+
+      let sortedBuyers = Object.values(buyerStats).sort((a, b) => b.tickets - a.tickets).slice(0, 3);
+      const badges = ['🥇 Top 1 - Líder de Sorteo', '🥈 Top 2 - Segundo Lugar', '🥉 Top 3 - Tercer Lugar'];
+      const styles = ['border-amber-500/40 bg-amber-500/10 text-amber-400', 'border-slate-600 bg-slate-800/80 text-slate-300', 'border-amber-700/40 bg-amber-900/10 text-amber-600'];
+
+      if(sortedBuyers.length === 0) {
+        container.innerHTML = `<div class="col-span-3 text-center text-slate-400 text-xs py-6 bg-slate-950/40 rounded-2xl border border-slate-800">Aún no hay compradores validados en el podio oficial. ¡Sé el primero en el Top!</div>`;
+        return;
+      }
+
+      container.innerHTML = sortedBuyers.map((b, index) => `
+        <div class="border ${styles[index]} p-5 rounded-2xl flex justify-between items-center shadow-lg">
+          <div>
+            <span class="text-[10px] font-extrabold uppercase tracking-widest block">${badges[index]}</span>
+            <h4 class="font-extrabold text-white text-sm mt-1">${b.name}</h4>
+          </div>
+          <div class="text-right">
+            <span class="text-[10px] text-slate-400 block uppercase">Tickets</span>
+            <span class="font-black text-xl text-white">${b.tickets}</span>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // Consulta de Tickets por Cédula
+    function searchTickets() {
+      const ci = document.getElementById('search-ci').value.trim();
+      const resultDiv = document.getElementById('search-result');
+      
+      if(!ci) {
+        resultDiv.innerHTML = `<p class="text-xs text-red-400 text-center">Por favor ingresa un número de cédula válido.</p>`;
+        return;
+      }
+
+      const userOrders = orders.filter(o => o.ci.toLowerCase() === ci.toLowerCase());
+
+      if(userOrders.length === 0) {
+        resultDiv.innerHTML = `<div class="bg-slate-950 border border-slate-800 p-5 rounded-2xl text-center text-xs text-slate-400">No se encontraron registros de compra asociados a la cédula <strong>${ci}</strong> en el sistema.</div>`;
+        return;
+      }
+
+      resultDiv.innerHTML = userOrders.map(o => `
+        <div class="bg-slate-950 border border-slate-800 p-5 rounded-2xl space-y-3 text-xs">
+          <div class="flex justify-between items-center pb-2 border-b border-slate-800">
+            <span class="text-slate-400">Titular: <strong class="text-white">${o.name}</strong></span>
+            <span class="px-2.5 py-1 rounded-full font-extrabold text-[10px] uppercase tracking-wider ${o.status === 'Aprobado' ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30' : 'bg-amber-500/20 text-amber-400 border border-amber-500/30'}">${o.status}</span>
+          </div>
+          <div>
+            <span class="text-slate-400 block mb-1 font-bold">Tus Números de la Suerte Asignados:</span>
+            <div class="flex flex-wrap gap-1.5 pt-1">
+              ${o.tickets.map(t => `<span class="bg-slate-900 text-amber-400 border border-slate-800 px-2.5 py-1 rounded-lg font-mono font-bold">${t}</span>`).join('')}
+            </div>
+          </div>
+          <div class="flex justify-between items-center text-[10px] text-slate-500 pt-1">
+            <span>Referencia: ${o.bank} (${o.ref})</span>
+            <span>Fecha: ${o.date}</span>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // Panel Administrador (Protegido con clave)
+    function openAdminLogin() {
+      const pass = prompt("Ingresa la clave de acceso al Panel de Administración S.U.R.:");
+      if(pass === "sur2026") { // Clave de acceso administrativa
+        switchTab('admin');
+      } else if(pass !== null) {
+        alert("Clave de administrador incorrecta.");
+      }
+    }
+
+    function loadAdminPanel() {
+      document.getElementById('cfg-title').value = config.title;
+      document.getElementById('cfg-price').value = config.price;
+      document.getElementById('cfg-rate').value = config.rate;
+      document.getElementById('cfg-img').value = config.image;
+      document.getElementById('cfg-desc').value = config.description;
+
+      const tbody = document.getElementById('admin-orders-table');
+      if(orders.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="6" class="p-6 text-center text-slate-400 text-xs">No hay órdenes de compra registradas en el sistema.</td></tr>`;
+        return;
+      }
+
+      tbody.innerHTML = orders.map(o => `
+        <tr class="hover:bg-slate-950/50 transition">
+          <td class="p-3.5"><strong class="text-white">${o.ci}</strong><br><span class="text-slate-400">${o.name}</span></td>
+          <td class="p-3.5 text-slate-300">${o.phone}</td>
+          <td class="p-3.5"><span class="font-bold text-white">${o.qty}</span> <span class="text-slate-400">($${o.totalUSD})</span></td>
+          <td class="p-3.5 font-mono text-slate-300">${o.bank}<br><strong class="text-amber-400">Ref: ${o.ref}</strong></td>
+          <td class="p-3.5">
+            <span class="px-2.5 py-1 rounded-full text-[10px] font-extrabold uppercase ${o.status === 'Aprobado' ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30' : 'bg-amber-500/20 text-amber-400 border border-amber-500/30'}">${o.status}</span>
+          </td>
+          <td class="p-3.5 text-right space-x-2">
+            ${o.status === 'Pendiente' ? `<button onclick="approveOrder(${o.id})" class="bg-emerald-600 hover:bg-emerald-500 text-white px-3 py-1.5 rounded-xl font-bold transition text-[11px]">Aprobar</button>` : ''}
+            <button onclick="deleteOrder(${o.id})" class="bg-red-500/10 text-red-400 hover:bg-red-500/20 px-3 py-1.5 rounded-xl font-bold transition text-[11px]">Eliminar</button>
+          </td>
+        </tr>
+      `).join('');
+    }
+
+    function saveRaffleConfig(e) {
+      e.preventDefault();
+      config.title = document.getElementById('cfg-title').value;
+      config.price = parseFloat(document.getElementById('cfg-price').value);
+      config.rate = parseFloat(document.getElementById('cfg-rate').value);
+      config.image = document.getElementById('cfg-img').value;
+      config.description = document.getElementById('cfg-desc').value;
+
+      localStorage.setItem('sur_config', JSON.stringify(config));
+      updateUI();
+      alert("¡Configuración general de la rifa actualizada con éxito!");
+    }
+
+    function approveOrder(id) {
+      const order = orders.find(o => o.id === id);
+      if(order) {
+        order.status = 'Aprobado';
+        localStorage.setItem('sur_orders', JSON.stringify(orders));
+        loadAdminPanel();
+        renderTopBuyers();
+      }
+    }
+
+    function deleteOrder(id) {
+      if(confirm("¿Estás seguro de eliminar esta orden del sistema?")) {
+        orders = orders.filter(o => o.id !== id);
+        localStorage.setItem('sur_orders', JSON.stringify(orders));
+        loadAdminPanel();
+        renderTopBuyers();
+      }
+    }
+
+    function resetRaffleData() {
+      if(confirm("¿ATENCIÓN! Esto eliminará todas las órdenes, reiniciará la numeración de tickets y vaciará el Top de compradores. ¿Deseas continuar?")) {
+        localStorage.removeItem('sur_orders');
+        localStorage.removeItem('sur_next_ticket');
+        orders = [];
+        nextTicketNumber = 1001;
+        loadAdminPanel();
+        renderTopBuyers();
+        alert("El sistema S.U.R. ha sido reiniciado por completo.");
+      }
+    }
+  </script>
+</body>
+</html>
